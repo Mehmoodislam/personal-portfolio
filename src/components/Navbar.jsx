@@ -6,7 +6,7 @@ export default function Navbar() {
     <header className="folio-navbar">
       {/* Brand Logo */}
       <a href="#home" className="folio-brand">
-        Folioblox
+        Mehmood
       </a>
 
       {/* Centered Navigation Links */}
