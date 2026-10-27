@@ -46,6 +46,7 @@ const WORKFLOW_STEPS = [
 
 export default function WorkflowPipeline({ progress }) {
   const [activeStep, setActiveStep] = useState(0)
+  const gridRef = useRef(null)
 
   // Section progress range: 0.74 to 0.915
   if (progress < 0.73 || progress > 0.925) {
@@ -77,6 +78,29 @@ export default function WorkflowPipeline({ progress }) {
   const sectionOpacity = Math.max(0, Math.min(tIn, tOut))
   const headerY = -24 * (1 - tIn) - 20 * (1 - tOut)
 
+  const scrollToStep = (idx) => {
+    setActiveStep(idx)
+    if (gridRef.current) {
+      const cards = gridRef.current.children
+      if (cards && cards[idx]) {
+        cards[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+      }
+    }
+  }
+
+  const handleGridScroll = () => {
+    if (!gridRef.current) return
+    const container = gridRef.current
+    const scrollLeft = container.scrollLeft
+    const width = container.clientWidth
+    if (width > 0) {
+      const newStep = Math.round(scrollLeft / (width * 0.85 || width))
+      if (newStep !== activeStep && newStep >= 0 && newStep < WORKFLOW_STEPS.length) {
+        setActiveStep(newStep)
+      }
+    }
+  }
+
   return (
     <div 
       className="workflow-showcase-section"
@@ -104,8 +128,28 @@ export default function WorkflowPipeline({ progress }) {
         </p>
       </div>
 
-      {/* 4 Interactive Pipeline Cards */}
-      <div className="workflow-grid-container">
+      {/* Mobile Phase Step Tabs */}
+      <div className="workflow-mobile-tabs">
+        {WORKFLOW_STEPS.map((stepItem, idx) => (
+          <button
+            key={stepItem.step}
+            type="button"
+            className={`wf-tab-btn ${activeStep === idx ? 'active' : ''}`}
+            onClick={() => scrollToStep(idx)}
+            style={{ '--step-color': stepItem.color }}
+          >
+            <span className="wf-tab-num">{stepItem.step}</span>
+            <span className="wf-tab-label">{stepItem.title.split('&')[0].trim()}</span>
+          </button>
+        ))}
+      </div>
+
+      {/* 4 Interactive Pipeline Cards (Horizontal snap on mobile) */}
+      <div 
+        ref={gridRef}
+        className="workflow-grid-container"
+        onScroll={handleGridScroll}
+      >
         {WORKFLOW_STEPS.map((stepItem, idx) => {
           return (
             <WorkflowStepCard
@@ -116,10 +160,24 @@ export default function WorkflowPipeline({ progress }) {
               tIn={tIn}
               tOut={tOut}
               isActive={activeStep === idx}
-              onActivate={() => setActiveStep(idx)}
+              onActivate={() => scrollToStep(idx)}
             />
           )
         })}
+      </div>
+
+      {/* Mobile Step Dots */}
+      <div className="workflow-mobile-dots">
+        {WORKFLOW_STEPS.map((stepItem, idx) => (
+          <button
+            key={idx}
+            type="button"
+            aria-label={`Step ${idx + 1}`}
+            className={`wf-dot ${activeStep === idx ? 'active' : ''}`}
+            onClick={() => scrollToStep(idx)}
+            style={{ '--step-color': stepItem.color }}
+          />
+        ))}
       </div>
 
       {/* Pipeline Guarantees Ticker Bar */}
@@ -151,31 +209,35 @@ function WorkflowStepCard({ stepItem, index, tIn, tOut, isActive, onActivate }) 
 
   const IconComp = stepItem.icon
 
-  // Staggered physics entrance per step
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 860
+
+  // Staggered physics entrance per step (straight on mobile)
   let initX = 0
-  let initY = 120
+  let initY = isMobile ? 30 : 120
   let initRot = 0
 
-  if (index === 0) {
-    initX = -70
-    initY = 110
-    initRot = -5
-  } else if (index === 1) {
-    initX = -25
-    initY = 130
-    initRot = -2
-  } else if (index === 2) {
-    initX = 25
-    initY = 130
-    initRot = 2
-  } else if (index === 3) {
-    initX = 70
-    initY = 110
-    initRot = 5
+  if (!isMobile) {
+    if (index === 0) {
+      initX = -70
+      initY = 110
+      initRot = -5
+    } else if (index === 1) {
+      initX = -25
+      initY = 130
+      initRot = -2
+    } else if (index === 2) {
+      initX = 25
+      initY = 130
+      initRot = 2
+    } else if (index === 3) {
+      initX = 70
+      initY = 110
+      initRot = 5
+    }
   }
 
   const curX = initX * (1 - tIn)
-  const curY = (initY * (1 - tIn)) - (35 * (1 - tOut))
+  const curY = (initY * (1 - tIn)) - ((isMobile ? 15 : 35) * (1 - tOut))
   const curRot = initRot * (1 - tIn)
   const curScale = (0.90 + 0.10 * tIn) * (0.95 + 0.05 * tOut)
 

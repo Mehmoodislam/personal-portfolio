@@ -37,35 +37,39 @@ export default function SilverProjectCard({
       }
     }
 
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 860
+
     // Staggered entrance timing per card
     let startEntrance = 0.54
     let peakEntrance = 0.61
     let initX = 0
-    let initY = 160
+    let initY = isMobile ? 35 : 160
     let initRot = 0
-    let initScale = 0.88
+    let initScale = isMobile ? 0.96 : 0.88
 
-    if (position === 'left') {
-      startEntrance = 0.54
-      peakEntrance = 0.61
-      initX = -130
-      initY = 170
-      initRot = -6
-      initScale = 0.88
-    } else if (position === 'center') {
-      startEntrance = 0.555
-      peakEntrance = 0.625
-      initX = 0
-      initY = 200
-      initRot = 0
-      initScale = 0.90
-    } else if (position === 'right') {
-      startEntrance = 0.57
-      peakEntrance = 0.64
-      initX = 130
-      initY = 170
-      initRot = 6
-      initScale = 0.88
+    if (!isMobile) {
+      if (position === 'left') {
+        startEntrance = 0.54
+        peakEntrance = 0.61
+        initX = -130
+        initY = 170
+        initRot = -6
+        initScale = 0.88
+      } else if (position === 'center') {
+        startEntrance = 0.555
+        peakEntrance = 0.625
+        initX = 0
+        initY = 200
+        initRot = 0
+        initScale = 0.90
+      } else if (position === 'right') {
+        startEntrance = 0.57
+        peakEntrance = 0.64
+        initX = 130
+        initY = 170
+        initRot = 6
+        initScale = 0.88
+      }
     }
 
     // Entrance interpolation [0 -> 1]
@@ -91,7 +95,7 @@ export default function SilverProjectCard({
 
     const opacity = Math.max(0, Math.min(tIn, tOut))
     const curX = initX * (1 - tIn)
-    const curY = (initY * (1 - tIn)) - (45 * (1 - tOut))
+    const curY = (initY * (1 - tIn)) - ((isMobile ? 20 : 45) * (1 - tOut))
     const curRot = initRot * (1 - tIn)
     const curScale = (initScale + (1 - initScale) * tIn) * (0.94 + 0.06 * tOut)
 

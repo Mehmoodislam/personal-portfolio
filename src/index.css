@@ -1055,6 +1055,91 @@ html, body {
   margin: 0;
 }
 
+/* Mobile Project Selector Tabs (hidden on desktop) */
+.portfolio-mobile-tabs {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  margin-bottom: 0.75rem;
+  width: 100%;
+  pointer-events: auto;
+  z-index: 10;
+  flex-wrap: wrap;
+}
+
+.portfolio-tab-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #cbd5e1;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.portfolio-tab-pill .tab-pill-num {
+  color: #ff5722;
+  font-weight: 800;
+}
+
+.portfolio-tab-pill.active {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.08));
+  border-color: rgba(255, 255, 255, 0.8);
+  color: #ffffff;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.25);
+  transform: scale(1.03);
+}
+
+.portfolio-mobile-nav {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.55rem;
+  pointer-events: auto;
+  z-index: 10;
+}
+
+.portfolio-dots-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.portfolio-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.25s ease;
+}
+
+.portfolio-dot.active {
+  width: 22px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #ff5722, #ffffff);
+  border-color: #ffffff;
+  box-shadow: 0 0 10px rgba(255, 87, 34, 0.5);
+}
+
+.portfolio-swipe-hint {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  color: #94a3b8;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 /* 3-Card Grid Spread Across Viewport */
 .portfolio-trio-grid {
   display: grid;
@@ -1446,6 +1531,77 @@ html, body {
   pointer-events: auto;
 }
 
+/* Mobile Workflow Step Tabs (hidden on desktop) */
+.workflow-mobile-tabs {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  margin-bottom: 0.75rem;
+  width: 100%;
+  max-width: 440px;
+  pointer-events: auto;
+  z-index: 10;
+  flex-wrap: wrap;
+}
+
+.wf-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.28rem 0.65rem;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #94a3b8;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.wf-tab-btn .wf-tab-num {
+  color: var(--step-color, #38bdf8);
+}
+
+.wf-tab-btn.active {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: var(--step-color, #ffffff);
+  color: #ffffff;
+  box-shadow: 0 0 14px var(--step-color, rgba(255, 255, 255, 0.3));
+  transform: scale(1.03);
+}
+
+.workflow-mobile-dots {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  margin-top: 0.55rem;
+  pointer-events: auto;
+  z-index: 10;
+}
+
+.wf-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.25s ease;
+}
+
+.wf-dot.active {
+  width: 22px;
+  border-radius: 10px;
+  background: var(--step-color, #ff5722);
+  border-color: #ffffff;
+  box-shadow: 0 0 10px var(--step-color, rgba(255, 87, 34, 0.5));
+}
+
 .workflow-grid-container {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -1717,21 +1873,6 @@ html, body {
   box-shadow: 0 0 8px #4ade80;
 }
 
-/* Responsive for Workflow */
-@media (max-width: 1100px) {
-  .workflow-grid-container {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem;
-    max-width: 780px;
-  }
-}
-
-@media (max-width: 680px) {
-  .workflow-grid-container {
-    grid-template-columns: 1fr;
-    max-width: 420px;
-  }
-}
 
 /* ==========================================================================
    Milestone 6: Liquid Silver Cyber Portal Call To Action
@@ -2020,29 +2161,326 @@ html, body {
   transform: translateY(-2px);
 }
 
-/* Responsive adjustments for Portfolio Trio */
-@media (max-width: 1080px) {
+/* ==========================================================================
+   Comprehensive Responsive Architecture for Portfolio & Workflow Sections
+   ========================================================================== */
+
+/* Tablet & Smaller Laptops (1081px - 1280px) */
+@media (max-width: 1280px) {
   .portfolio-trio-grid {
     gap: 1rem;
-    max-width: 980px;
+    max-width: 1100px;
+  }
+  .workflow-grid-container {
+    gap: 0.85rem;
+    max-width: 1100px;
   }
   .silver-card-inner {
-    padding: 1rem;
+    padding: 0.95rem 1rem;
+  }
+  .workflow-card-inner {
+    padding: 1rem 0.95rem;
   }
 }
 
-@media (max-width: 860px) {
-  .portfolio-showcase-section {
-    padding: 4.5rem 1rem 1.5rem 1rem;
-    overflow-y: auto;
+/* Tablet (861px - 1080px) */
+@media (max-width: 1080px) and (min-width: 861px) {
+  .portfolio-showcase-section,
+  .workflow-showcase-section {
+    padding: 4.5rem 2vw 1.5rem 2vw;
   }
+  
   .portfolio-trio-grid {
-    grid-template-columns: 1fr;
-    max-width: 440px;
-    gap: 1.25rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+    max-width: 960px;
   }
+  .silver-card-inner {
+    padding: 0.85rem;
+    gap: 0.5rem;
+  }
+  .silver-card-title {
+    font-size: 1rem;
+  }
+  .silver-card-desc {
+    font-size: 0.76rem;
+    min-height: 2.2rem;
+  }
+
+  .workflow-grid-container {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.85rem;
+    max-width: 740px;
+  }
+  .workflow-card-inner {
+    padding: 0.85rem;
+    gap: 0.45rem;
+  }
+  .wf-card-title {
+    font-size: 0.95rem;
+  }
+  .wf-card-desc {
+    font-size: 0.75rem;
+    min-height: 2.1rem;
+  }
+  .workflow-guarantees-bar {
+    margin-top: 0.75rem;
+    gap: 0.85rem;
+  }
+}
+
+/* Mobile & Phablet (<= 860px) */
+@media (max-width: 860px) {
+  /* --- Portfolio Showcase Mobile Overhaul --- */
+  .portfolio-showcase-section {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 4.2rem 0.75rem 1.25rem 0.75rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    pointer-events: auto;
+    box-sizing: border-box;
+  }
+
+  .portfolio-section-header {
+    margin-bottom: 0.55rem;
+    width: 100%;
+    padding: 0 0.5rem;
+  }
+
+  .portfolio-master-heading {
+    font-size: clamp(1.4rem, 4.6vw, 1.85rem);
+    line-height: 1.15;
+    margin: 0.1rem 0 0.25rem 0;
+  }
+
+  .portfolio-subheading {
+    font-size: clamp(0.75rem, 2.5vw, 0.84rem);
+    line-height: 1.35;
+    max-width: 380px;
+    margin: 0 auto;
+  }
+
+  .portfolio-phase-indicator {
+    font-size: 0.65rem;
+    padding: 0.2rem 0.65rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .portfolio-mobile-tabs {
+    display: flex;
+  }
+
+  .portfolio-mobile-nav {
+    display: flex;
+  }
+
+  /* Horizontal Snap Carousel for Portfolio Cards */
+  .portfolio-trio-grid {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 0.85rem;
+    width: 100%;
+    max-width: 100%;
+    padding: 0.25rem 0.5rem 0.65rem 0.5rem;
+    margin: 0;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
+  }
+
+  .portfolio-trio-grid::-webkit-scrollbar {
+    display: none;
+  }
+
   .silver-project-wrapper {
-    transform: none !important;
+    min-width: min(86vw, 360px);
+    max-width: min(86vw, 360px);
+    width: min(86vw, 360px);
+    flex-shrink: 0;
+    scroll-snap-align: center;
+    margin: 0 auto;
+    pointer-events: auto;
+  }
+
+  .silver-card-inner {
+    padding: 0.85rem;
+    gap: 0.55rem;
+    border-radius: 16px;
+  }
+
+  .silver-media-box {
+    aspect-ratio: 16 / 9;
+    max-height: 165px;
+    border-radius: 10px;
+  }
+
+  .silver-card-title {
+    font-size: 1.05rem;
+  }
+
+  .silver-card-desc {
+    font-size: 0.78rem;
+    line-height: 1.4;
+    min-height: auto;
+    -webkit-line-clamp: 2;
+  }
+
+  .silver-tech-pill {
+    font-size: 0.62rem;
+    padding: 0.14rem 0.45rem;
+  }
+
+  .silver-visit-btn {
+    padding: 0.38rem 0.95rem;
+    font-size: 0.78rem;
+  }
+
+  /* --- Workflow Pipeline Mobile Overhaul --- */
+  .workflow-showcase-section {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 4.2rem 0.75rem 1.25rem 0.75rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    pointer-events: auto;
+    box-sizing: border-box;
+  }
+
+  .workflow-section-header {
+    margin-bottom: 0.55rem;
+    width: 100%;
+    padding: 0 0.5rem;
+  }
+
+  .workflow-mobile-tabs {
+    display: flex;
+  }
+
+  .workflow-mobile-dots {
+    display: flex;
+  }
+
+  /* Horizontal Snap Carousel for Workflow Cards */
+  .workflow-grid-container {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 0.85rem;
+    width: 100%;
+    max-width: 100%;
+    padding: 0.25rem 0.5rem 0.65rem 0.5rem;
+    margin: 0;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
+  }
+
+  .workflow-grid-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .workflow-card-wrapper {
+    min-width: min(86vw, 340px);
+    max-width: min(86vw, 340px);
+    width: min(86vw, 340px);
+    flex-shrink: 0;
+    scroll-snap-align: center;
+    margin: 0 auto;
+    pointer-events: auto;
+  }
+
+  .workflow-card-inner {
+    padding: 0.95rem;
+    gap: 0.5rem;
+    border-radius: 16px;
+  }
+
+  .wf-icon-box {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+  }
+
+  .wf-card-title {
+    font-size: 0.98rem;
+  }
+
+  .wf-card-desc {
+    font-size: 0.76rem;
+    line-height: 1.4;
+    min-height: auto;
+    -webkit-line-clamp: 2;
+  }
+
+  .wf-chip {
+    font-size: 0.62rem;
+    padding: 0.12rem 0.4rem;
+  }
+
+  /* Guarantees Bar on Mobile: Clean 2x2 Grid */
+  .workflow-guarantees-bar {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.45rem;
+    width: 100%;
+    max-width: 380px;
+    margin: 0.65rem auto 0 auto;
+    padding: 0 0.5rem;
+  }
+
+  .guarantee-item {
+    font-size: 0.65rem;
+    padding: 0.2rem 0.45rem;
+    justify-content: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+/* Smallest Mobile Devices (<= 400px, e.g. iPhone SE / mini) */
+@media (max-width: 400px) {
+  .portfolio-showcase-section,
+  .workflow-showcase-section {
+    padding-top: 3.8rem;
+  }
+  .portfolio-master-heading {
+    font-size: 1.35rem;
+  }
+  .portfolio-tab-pill,
+  .wf-tab-btn {
+    font-size: 0.64rem;
+    padding: 0.24rem 0.5rem;
+  }
+  .silver-project-wrapper,
+  .workflow-card-wrapper {
+    min-width: 90vw;
+    max-width: 90vw;
+  }
+  .silver-card-inner,
+  .workflow-card-inner {
+    padding: 0.75rem;
+  }
+  .silver-card-title {
+    font-size: 0.95rem;
+  }
+  .guarantee-item {
+    font-size: 0.6rem;
+    padding: 0.18rem 0.35rem;
   }
 }
 

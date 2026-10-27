@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { ArrowUpRight, MapPin, Mail, Phone, Sparkles, Terminal, Code2, Cpu, CheckCircle2, ShieldCheck, Zap, Copy, Check, MessageSquare } from 'lucide-react'
 import SilverProjectCard from './SilverProjectCard'
 import WorkflowPipeline from './WorkflowPipeline'
@@ -63,7 +63,32 @@ const PROJECTS = [
 export default function StoryOverlays({ progress }) {
   const [skillCategory, setSkillCategory] = useState('all')
   const [copiedEmail, setCopiedEmail] = useState(false)
+  const [activeProjectIdx, setActiveProjectIdx] = useState(0)
+  const portfolioGridRef = useRef(null)
   const [ctaTilt, setCtaTilt] = useState({ rotateX: 0, rotateY: 0, glareX: 50, glareY: 50, active: false })
+
+  const scrollToProject = (idx) => {
+    setActiveProjectIdx(idx)
+    if (portfolioGridRef.current) {
+      const cards = portfolioGridRef.current.children
+      if (cards && cards[idx]) {
+        cards[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+      }
+    }
+  }
+
+  const handlePortfolioScroll = () => {
+    if (!portfolioGridRef.current) return
+    const container = portfolioGridRef.current
+    const scrollLeft = container.scrollLeft
+    const width = container.clientWidth
+    if (width > 0) {
+      const newIdx = Math.round(scrollLeft / (width * 0.85 || width))
+      if (newIdx !== activeProjectIdx && newIdx >= 0 && newIdx < PROJECTS.length) {
+        setActiveProjectIdx(newIdx)
+      }
+    }
+  }
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText('mehmoodislam10@gmail.com')
@@ -417,8 +442,27 @@ export default function StoryOverlays({ progress }) {
             </p>
           </div>
 
-          {/* 3 Silver Project Cards Spread Across Left, Center, Right */}
-          <div className="portfolio-trio-grid">
+          {/* Mobile Project Selector Tabs */}
+          <div className="portfolio-mobile-tabs">
+            {PROJECTS.map((proj, idx) => (
+              <button
+                key={proj.id}
+                type="button"
+                className={`portfolio-tab-pill ${activeProjectIdx === idx ? 'active' : ''}`}
+                onClick={() => scrollToProject(idx)}
+              >
+                <span className="tab-pill-num">{proj.id}</span>
+                <span className="tab-pill-title">{proj.title.split('//')[0].trim()}</span>
+              </button>
+            ))}
+          </div>
+
+          {/* 3 Silver Project Cards Spread Across Left, Center, Right (Horizontal snap on mobile) */}
+          <div 
+            ref={portfolioGridRef}
+            className="portfolio-trio-grid"
+            onScroll={handlePortfolioScroll}
+          >
             {PROJECTS.map((project, idx) => (
               <SilverProjectCard
                 key={project.id}
@@ -426,8 +470,25 @@ export default function StoryOverlays({ progress }) {
                 position={project.position}
                 progress={progress}
                 index={idx}
+                isActive={activeProjectIdx === idx}
               />
             ))}
+          </div>
+
+          {/* Mobile Dot Navigators & Swipe Hint */}
+          <div className="portfolio-mobile-nav">
+            <div className="portfolio-dots-bar">
+              {PROJECTS.map((_, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  aria-label={`Go to project ${idx + 1}`}
+                  className={`portfolio-dot ${activeProjectIdx === idx ? 'active' : ''}`}
+                  onClick={() => scrollToProject(idx)}
+                />
+              ))}
+            </div>
+            <span className="portfolio-swipe-hint">Swipe to explore →</span>
           </div>
         </div>
       )}
